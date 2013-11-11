@@ -1,0 +1,173 @@
+//stage.stageWidth
+//stage.stageHeight
+//DevGridTest
+
+var gridSize:int = 80;
+
+var keyArray:Array = new Array();
+var i:Number;
+var j:Number;
+for (i=0; i<222; i++)
+{
+	keyArray.push([i,false]);
+}
+stage.addEventListener(KeyboardEvent.KEY_DOWN,checkKeysDown);
+stage.addEventListener(KeyboardEvent.KEY_UP,checkKeysUp);
+this.addEventListener(Event.ENTER_FRAME,UpdateGame);
+
+
+
+var CurrentOverworldLevel:Array = new Array();
+//Overworld Level Name
+CurrentOverworldLevel[0] = new String("Dev Test Map");
+//Overworld Level Width
+CurrentOverworldLevel[1] = new int(10);
+//Overworld Level Height
+CurrentOverworldLevel[2] = new int(20);
+//Overworld Level Array
+CurrentOverworldLevel[3] = new Array(CurrentOverworldLevel[1]);
+trace("Hmmm1");
+
+var playerGrixX:int = 5*gridSize;
+var playerGrixY:int = 5*gridSize;
+
+var PlayerIMG:DevTestPlayer = new DevTestPlayer();
+PlayerIMG.x = stage.stageWidth/2;
+PlayerIMG.y = stage.stageHeight/2;
+addChild(PlayerIMG);
+
+for(i = 0; i<CurrentOverworldLevel[1]; i++){
+	
+	var TempArray:Array = new Array(CurrentOverworldLevel[2]);
+	
+	for(j = 0; j<CurrentOverworldLevel[2]; j++){
+		TempArray[j] = new Array(9);
+		/*
+		0: Passable - Boolean
+		1: Block Type - Int
+		2: Image Of Block - MovieClip
+		3: Current Visibility - Int
+		4: Emited Light - Int
+		5: Visibility Image - MovieClip
+		6: Level Taken To - String
+		7: X Co-ordinate of new Level - Int
+		8: Y Co-ordinate of new Level - Int
+		*/
+		TempArray[j][0] = new int(Math.round(Math.random()));
+		if(TempArray[j][0] == 1){
+			var tempGridItem:DevGridTest = new DevGridTest();
+			tempGridItem.x = Math.random() * 300;
+			tempGridItem.y = Math.random() * 300;
+			addChild(tempGridItem)
+			TempArray[j][2] = tempGridItem;
+		}
+	}
+	
+	CurrentOverworldLevel[3][i] = TempArray;
+	
+}
+MoveLevelGrid();
+
+
+var Player:Array = new Array();
+//Player's Name
+Player[0] = new String("Bob!");
+//Player's GridX
+Player[0] = new int(5);
+//Player's GridY
+Player[1] = new int(5);
+
+/*
+for(var i:uint = 0; i<Height; i++){
+	var TempArray:Array = new Array(Width);
+	for(var j:uint = 0; j<Width; j++){
+		TempArray[j] = new int(Math.round(Math.random()));
+	}
+	CurrentOverworldLevel[i] = TempArray;
+}
+*/
+
+trace(CurrentOverworldLevel.length);
+//trace(CurrentOverworldLevel);
+trace(stage.stageWidth);
+trace(stage.stageHeight);
+trace(CurrentOverworldLevel[3]);
+
+function MoveLevelGrid():void{
+	var MostLeft:int = stage.stageWidth/2 - (playerGrixX);
+	var MostTop:int = stage.stageHeight/2 - (playerGrixY);
+	for(i = 0; i<CurrentOverworldLevel[1]; i++){
+	
+	for(j = 0; j<CurrentOverworldLevel[2]; j++){
+		//TempArray[j] = new Array(9);
+		//trace(CurrentOverworldLevel[3][i][j][2]);
+		var BlockOnGrid:Boolean = false;
+		if((MostLeft + i*gridSize) < (0-(gridSize/2))){
+			trace("Error On the left, It can't be seen!");
+		} else if((MostLeft + i*gridSize) > (stage.stageWidth+(gridSize/2))){
+			trace("Error On the right, It can't be seen!");
+		} else if((MostTop + j*gridSize) < (0-(gridSize/2))){
+			trace("Error On the top, It can't be seen!");
+		} else if((MostTop + j*gridSize) > (stage.stageHeight+(gridSize/2))){
+			trace("Error On the bottom, It can't be seen!");
+		} else {
+			BlockOnGrid = true;
+			if(!CurrentOverworldLevel[3][i][j][2]){
+				var tempGridItem:DevGridTest = new DevGridTest();
+				addChild(tempGridItem)
+				CurrentOverworldLevel[3][i][j][2] = tempGridItem;
+			}
+			CurrentOverworldLevel[3][i][j][2].x = MostLeft + (i*gridSize);
+			CurrentOverworldLevel[3][i][j][2].y = MostTop + (j*gridSize);
+		}
+		if(!BlockOnGrid){
+			if(CurrentOverworldLevel[3][i][j][2]){
+				removeChild(CurrentOverworldLevel[3][i][j][2]);
+			}
+		}
+		if(CurrentOverworldLevel[3][i][j][2]){
+			trace("well!");
+			
+		}
+		//var playerGrixX:int = 5;
+		//gridSize
+		//stage.stageWidth
+		/*
+		0: Passable - Boolean
+		1: Block Type - Int
+		2: Image Of Block - MovieClip
+		3: Current Visibility - Int
+		4: Emited Light - Int
+		5: Visibility Image - MovieClip
+		6: Level Taken To - String
+		7: X Co-ordinate of new Level - Int
+		8: Y Co-ordinate of new Level - Int
+		*/
+	}
+	}
+		
+		
+	bringToFront(PlayerIMG);
+}
+
+function checkKeysDown(event:KeyboardEvent):void
+{
+	//trace("event.keyCode = " + event.keyCode);
+	keyArray[event.keyCode][1] = true;
+}
+function checkKeysUp(event:KeyboardEvent):void
+{
+	keyArray[event.keyCode][1] = false;
+}
+function isKeyDown(X)
+{
+	return keyArray[X][1];
+}
+
+function UpdateGame(event:Event):void
+{
+}
+
+function bringToFront(mcl:MovieClip) {
+	mcl.parent.setChildIndex(mcl,mcl.parent.numChildren - 1);
+}
