@@ -9,5 +9,6 @@ it with an invigorating fighting game, integrated into the RPG in the exact same
 (insert link here ;D)
 
 ## The Team
-P3TE - Programming,
-Chootin - Art.
+P3TE - Programming
+
+Chootin - Art
