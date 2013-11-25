@@ -1,0 +1,61 @@
+stop();
+ 
+GameBtn.addEventListener(MouseEvent.CLICK, GameBtn_Press);
+GameBtn.addEventListener(MouseEvent.ROLL_OVER, GameBtn_RollOver);
+GameBtn.addEventListener(MouseEvent.ROLL_OUT,GameBtn_RollOut);
+function GameBtn_Press(ev:MouseEvent):void{
+	gotoAndPlay(2);
+}
+function GameBtn_RollOver(ev:MouseEvent):void{
+}
+function GameBtn_RollOut(ev:MouseEvent):void{
+}
+
+EditorBtn.addEventListener(MouseEvent.CLICK, EditorBtn_Press);
+EditorBtn.addEventListener(MouseEvent.ROLL_OVER, EditorBtn_RollOver);
+EditorBtn.addEventListener(MouseEvent.ROLL_OUT,EditorBtn_RollOut);
+function EditorBtn_Press(ev:MouseEvent):void{
+	gotoAndPlay(3);
+}
+function EditorBtn_RollOver(ev:MouseEvent):void{
+}
+function EditorBtn_RollOut(ev:MouseEvent):void{
+}
+
+
+BattleBtn.addEventListener(MouseEvent.CLICK, BattleBtn_Press);
+BattleBtn.addEventListener(MouseEvent.ROLL_OVER, BattleBtn_RollOver);
+BattleBtn.addEventListener(MouseEvent.ROLL_OUT,BattleBtn_RollOut);
+function BattleBtn_Press(ev:MouseEvent):void{
+	gotoAndPlay(4);
+}
+function BattleBtn_RollOver(ev:MouseEvent):void{
+}
+function BattleBtn_RollOut(ev:MouseEvent):void{
+}
+
+/*
+var BigArray = new Array();
+var TestSaveArray = new Array(3);
+var ji:int = 0;
+var jik:int = 0;
+for(ji = 0; ji < TestSaveArray.length; ji++){
+	
+	var InnerArray:Array = new Array(10);
+
+	for(jik = 0; jik < InnerArray.length; jik++){
+		var NewRandom:Number = Math.random()*5;
+		InnerArray[jik] = NewRandom;
+	}
+	
+	TestSaveArray[ji] = InnerArray;
+	//trace(NewRandom);
+	//trace(TestSaveArray[i]);
+	
+}
+//trace(TestSaveArray[5]);
+
+trace(TestSaveArray);
+var MyFile:FileReference = new FileReference();
+MyFile.save(TestSaveArray);
+*/
