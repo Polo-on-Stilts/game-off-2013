@@ -1,0 +1,466 @@
+stop();
+import flash.display.MovieClip;
+
+//stage.stageWidth
+//stage.stageHeight
+//DevGridTest
+
+var gridSize:int = 80;
+
+//var keyArray:Array = new Array();
+var i:Number;
+var j:Number;
+/*
+for (i=0; i<222; i++)
+{
+	keyArray.push([i,false]);
+}
+*/
+//stage.addEventListener(KeyboardEvent.KEY_DOWN,checkKeysDown);
+//stage.addEventListener(KeyboardEvent.KEY_UP,checkKeysUp);
+this.addEventListener(Event.ENTER_FRAME,UpdateGame);
+
+
+
+var CurrentOverworldLevel:Array = new Array();
+/*
+//Overworld Level Name
+CurrentOverworldLevel[0] = new String("Dev Test Map");
+//Overworld Level Width
+CurrentOverworldLevel[1] = new int(100);
+//Overworld Level Height
+CurrentOverworldLevel[2] = new int(100);
+//Overworld Level Array
+CurrentOverworldLevel[3] = new Array(CurrentOverworldLevel[1]);
+*/
+
+//trace("Hmmm1");
+
+var playerPosX:Number = 1*gridSize;
+var playerPosY:Number = 1*gridSize;
+var playerGridX:Number = 1;
+var playerGridY:Number = 1;
+var PlayerMoving:Boolean = false;
+var PlayerDirection:int = 1;
+var PlayerMoveSpeed:Number = 6.25;
+var PlayerMoveTime:Number = 100;
+var PlayerBaseMoveTime:Number = 100;
+/*
+Direction:
+1 - Down
+2 - Up
+3 - Left
+4 - Right
+*/
+
+var PlayerIMG:PlayerMc = new PlayerMc();
+PlayerIMG.x = stage.stageWidth/2 - gridSize/2;
+PlayerIMG.y = stage.stageHeight/2 - gridSize/2;
+PlayerIMG.gotoAndStop(1);
+addChild(PlayerIMG);
+
+/*
+for(i = 0; i<CurrentOverworldLevel[1]; i++){
+	
+	var TempArray:Array = new Array(CurrentOverworldLevel[2]);
+	
+	for(j = 0; j<CurrentOverworldLevel[2]; j++){
+		TempArray[j] = new Array(9);
+		//**\\
+		0: Passable - Int
+		1: Block Type - Int
+		2: Image Of Block - MovieClip
+		3: Current Visibility - Int
+		4: Emited Light - Int
+		5: Visibility Image - MovieClip
+		6: Level Taken To - String
+		7: X Co-ordinate of new Level - Int
+		8: Y Co-ordinate of new Level - Int
+		//**\\
+		TempArray[j][0] = new int(0);
+		TempArray[j][1] = new int(Math.floor(Math.random()*3 + 2));
+		//trace(TempArray[j][0]);
+		//trace(TempArray[j][1]);
+		if(TempArray[j][1] == 2){
+			TempArray[j][0] = 1;
+			//trace(i + " - " + j);
+		}
+		//trace(TempArray[j][0]);
+		//trace(TempArray[j][1]);
+		/*
+		if(TempArray[j][0] == 1){
+			var tempGridItem:DevGridTest = new DevGridTest();
+			tempGridItem.x = Math.random() * 300;
+			tempGridItem.y = Math.random() * 300;
+			addChild(tempGridItem)
+			TempArray[j][2] = tempGridItem;
+		}
+		
+	}
+	
+	CurrentOverworldLevel[3][i] = TempArray;
+	
+}
+*/
+//createLevelGrid();
+//MoveLevelGrid();
+
+var Player:Array = new Array();
+//Player's Name
+Player[0] = new String("Bob555!");
+//Player's GridX
+Player[0] = new int(1);
+//Player's GridY
+Player[1] = new int(1);
+
+/*
+for(var i:uint = 0; i<Height; i++){
+	var TempArray:Array = new Array(Width);
+	for(var j:uint = 0; j<Width; j++){
+		TempArray[j] = new int(Math.round(Math.random()));
+	}
+	CurrentOverworldLevel[i] = TempArray;
+}
+*/
+
+//trace(CurrentOverworldLevel.length);
+////trace(CurrentOverworldLevel);
+//trace(stage.stageWidth);
+//trace(stage.stageHeight);
+//trace(CurrentOverworldLevel[3]);
+
+
+var myTextLoader:URLLoader = new URLLoader();
+
+myTextLoader.addEventListener(Event.COMPLETE, onLoaded);
+
+function onLoaded(e:Event):void {
+	
+	var TempCurrentOverworldLevel:Array = String(e.target.data).split(/\n/);
+
+	 
+	//Overworld Level Name
+	CurrentOverworldLevel[0] = new String(TempCurrentOverworldLevel[0]);
+	//Overworld Level Width
+	CurrentOverworldLevel[1] = new int(TempCurrentOverworldLevel[1]);
+	//Overworld Level Height
+	CurrentOverworldLevel[2] = new int(TempCurrentOverworldLevel[2]);
+	
+	 var ST_1_InnerArray:Array = TempCurrentOverworldLevel[3].split("[");
+	 //CurrentOverworldLevel
+	 //trace(" ---- ");
+	 //trace(ST_1_InnerArray);
+	 //trace(ST_1_InnerArray[0]);
+	 //trace(ST_1_InnerArray[1]);
+	 
+	 var ST_11_InnerThing:Array = new Array(CurrentOverworldLevel[1]);
+	 for(var selectorI2:uint = 0; selectorI2 < CurrentOverworldLevel[1]; selectorI2++){
+		 ST_11_InnerThing[selectorI2] = ST_1_InnerArray[selectorI2].split("]");		 
+	 }
+	 
+
+	//Overworld Level Array
+	CurrentOverworldLevel[3] = new Array(CurrentOverworldLevel[1]);
+	for(var selectorI:uint = 0; selectorI < CurrentOverworldLevel[1]; selectorI++){
+		CurrentOverworldLevel[3][selectorI] = new Array(CurrentOverworldLevel[2]);
+		for(var selectorJ:uint = 0; selectorJ < CurrentOverworldLevel[2]; selectorJ++){
+			var TempMostInnerArray:Array = ST_11_InnerThing[selectorI][selectorJ].split(",");
+			CurrentOverworldLevel[3][selectorI][selectorJ] = new Array(11);
+			CurrentOverworldLevel[3][selectorI][selectorJ][0] = new int(TempMostInnerArray[0]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][1] = new int(TempMostInnerArray[1]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][3] = new int(TempMostInnerArray[2]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][4] = new int(TempMostInnerArray[3]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][6] = new String(TempMostInnerArray[4]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][7] = new int(TempMostInnerArray[5]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][8] = new int(TempMostInnerArray[6]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][9] = new int(TempMostInnerArray[7]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][10] = new String(TempMostInnerArray[8]);
+			/*
+			var tempGridItem:DevGridTest = new DevGridTest();
+			addChild(tempGridItem);
+			CurrentOverworldLevel[3][selectorI][selectorJ][2] = tempGridItem;
+			CurrentOverworldLevel[3][selectorI][selectorJ][2].gotoAndStop(CurrentOverworldLevel[3][selectorI][selectorJ][1]);
+			CurrentOverworldLevel[3][selectorI][selectorJ][2].x = MostLeft + (selectorI*gridSizeLevelCreator)  - gridSizeLevelCreator/2;
+			CurrentOverworldLevel[3][selectorI][selectorJ][2].y = MostTop + (selectorJ*gridSizeLevelCreator)  - gridSizeLevelCreator/2;
+			SendMovieClipToBack(CurrentOverworldLevel[3][selectorI][selectorJ][2]);
+			
+			if(CurrentOverworldLevel[3][selectorI][selectorJ][2].x>=800){
+				CurrentOverworldLevel[3][selectorI][selectorJ][2].visible = false;
+			}
+			if(CurrentOverworldLevel[3][selectorI][selectorJ][2].y>=800){
+				CurrentOverworldLevel[3][selectorI][selectorJ][2].visible = false;
+			}
+			*/
+		}
+	}
+	createLevelGrid();
+}
+var LoadedFile:String = "FirstCustomLevel";
+myTextLoader.load(new URLRequest(LoadedFile + ".txt"));
+
+
+function createLevelGrid():void{
+	var MostLeft:int = stage.stageWidth/2 - (playerPosX);
+	var MostTop:int = stage.stageHeight/2 - (playerPosY);
+	for(i = 0; i<CurrentOverworldLevel[1]; i++){
+	
+	for(j = 0; j<CurrentOverworldLevel[2]; j++){
+			if(CurrentOverworldLevel[3][i][j][1] != 0){
+				////trace("OMGOMGOMGOMGOMOGMOGMOGMOGMODFMGIOPSDUISDHGSGYIESIGBSHIGBHYISERHYISGIYSEGBHSBGBSEHGILSERVUIS");
+				var tempGridItem:DevGridTest = new DevGridTest();
+				tempGridItem.gotoAndStop(CurrentOverworldLevel[3][i][j][1]);
+				addChild(tempGridItem);
+				CurrentOverworldLevel[3][i][j][2] = tempGridItem;
+				CurrentOverworldLevel[3][i][j][2].x = MostLeft + (i*gridSize)  - gridSize/2;
+				CurrentOverworldLevel[3][i][j][2].y = MostTop + (j*gridSize)  - gridSize/2;
+				//if(Math.random() < 0.90){
+				//CurrentOverworldLevel[3][i][j][2].visible = false;
+				//}
+				//var MC:MovieClip = new MovieClip();
+				//MC.alpha = 0;
+			}
+		}
+	}
+	bringToFront(PlayerIMG);
+}
+
+function MoveLevelGrid():void{
+	var MostLeft:int = stage.stageWidth/2 - (playerPosX);
+	var MostTop:int = stage.stageHeight/2 - (playerPosY);
+	for(i = 0; i<CurrentOverworldLevel[1]; i++){
+	
+	for(j = 0; j<CurrentOverworldLevel[2]; j++){
+		//TempArray[j] = new Array(9);
+		////trace(CurrentOverworldLevel[3][i][j][2]);
+		var BlockOnGrid:Boolean = false;
+		if((MostLeft + i*gridSize) < (0-(gridSize))){
+			////trace("Error On the left, It can't be seen!");
+		} else if((MostLeft + i*gridSize) > (stage.stageWidth+(gridSize))){
+			////trace("Error On the right, It can't be seen!");
+		} else if((MostTop + j*gridSize) < (0-(gridSize))){
+			////trace("Error On the top, It can't be seen!");
+		} else if((MostTop + j*gridSize) > (stage.stageHeight+(gridSize))){
+			////trace("Error On the bottom, It can't be seen!");
+		} else {
+			BlockOnGrid = true;
+			CurrentOverworldLevel[3][i][j][2].visible = true;
+			////trace(CurrentOverworldLevel[3][i][j][1]);
+			if(CurrentOverworldLevel[3][i][j][1] != 0){
+				if(!CurrentOverworldLevel[3][i][j][2]){
+					//trace("OMGOMGOMGOMGOMOGMOGMOGMOGMODFMGIOPSDUISDHGSGYIESIGBSHIGBHYISERHYISGIYSEGBHSBGBSEHGILSERVUIS");
+				//var tempGridItem:DevGridTest = new DevGridTest();
+				//tempGridItem.gotoAndStop(CurrentOverworldLevel[3][i][j][1]);
+				//addChild(tempGridItem)
+				//CurrentOverworldLevel[3][i][j][2] = tempGridItem;
+				}
+				CurrentOverworldLevel[3][i][j][2].x = MostLeft + (i*gridSize) - gridSize/2;
+				CurrentOverworldLevel[3][i][j][2].y = MostTop + (j*gridSize) - gridSize/2;
+			}
+		}
+		if(!BlockOnGrid){
+			CurrentOverworldLevel[3][i][j][2].visible = false;
+		}
+		/*
+		if(!BlockOnGrid){
+			if(CurrentOverworldLevel[3][i][j][2]){
+				if (CurrentOverworldLevel[3][i][j][2].parent){
+    				CurrentOverworldLevel[3][i][j][2].parent.removeChild(CurrentOverworldLevel[3][i][j][2]); 
+				} else {
+					//trace("OMGOMGOMGOMGOMOGMOGMOGMOGMODFMGIOPSDUISDHGSGYIESIGBSHIGBHYISERHYISGIYSEGBHSBGBSEHGILSERVUIS");
+				}
+				//removeChild(CurrentOverworldLevel[3][i][j][2]);
+			}
+		}
+		*/
+		if(CurrentOverworldLevel[3][i][j][2]){
+			////trace("well!");
+			
+		}
+		//var playerPosX:int = 5;
+		//gridSize
+		//stage.stageWidth
+		/*
+		0: Passable - Boolean
+		1: Block Type - Int
+		2: Image Of Block - MovieClip
+		3: Current Visibility - Int
+		4: Emited Light - Int
+		5: Visibility Image - MovieClip
+		6: Level Taken To - String
+		7: X Co-ordinate of new Level - Int
+		8: Y Co-ordinate of new Level - Int
+		*/
+	}
+	}
+		
+		
+	bringToFront(PlayerIMG);
+}
+
+/*
+function checkKeysDown(event:KeyboardEvent):void
+{
+	////trace("event.keyCode = " + event.keyCode);
+	keyArray[event.keyCode][1] = true;
+	trace("OMG");
+}
+function checkKeysUp(event:KeyboardEvent):void
+{
+	keyArray[event.keyCode][1] = false;
+}
+function isKeyDown(X)
+{
+	return keyArray[X][1];
+}
+*/
+		
+
+function UpdateGame(event:Event):void
+{
+	//trace("Humm");
+	//trace(PlayerMoving);
+	if(!PlayerMoving){
+		handleMovement();
+	} else {
+		//gridSize
+		//playerPosX
+		
+		PlayerMoveTime -= PlayerMoveSpeed;
+		
+		if(PlayerDirection == 1){
+			//trace("bob!");
+			//playerPosY += (PlayerMoveSpeed/100) * gridSize;
+			
+			//playerPosY = (Math.floor(playerPosX/gridSize)) * gridSize
+			playerPosY = playerGridY * gridSize + (1 - (PlayerMoveTime/PlayerBaseMoveTime)) * gridSize;
+		} else if(PlayerDirection == 2){
+			//trace("bob2!");
+			//playerPosY -= (PlayerMoveSpeed/100) * gridSize;
+			playerPosY = playerGridY * gridSize - (1 - (PlayerMoveTime/PlayerBaseMoveTime)) * gridSize;
+		} else if(PlayerDirection == 3){
+			//trace("bob3!");
+			//playerPosX -= (PlayerMoveSpeed/100) * gridSize;
+			//PlayerBaseMoveTime
+			playerPosX = playerGridX * gridSize - (1 - (PlayerMoveTime/PlayerBaseMoveTime)) * gridSize;
+			//playerGridX
+		} else if(PlayerDirection == 4){
+			//trace("bob4!");
+			//playerPosX += (PlayerMoveSpeed/100) * gridSize;
+			playerPosX = playerGridX * gridSize + (1 - (PlayerMoveTime/PlayerBaseMoveTime)) * gridSize;
+		}
+		//trace("Nextbob1!");
+		//trace(PlayerMoveTime);
+		//trace(PlayerMoveSpeed);
+		
+		//trace(PlayerMoveTime);
+		if(PlayerMoveTime<=0){
+			//trace("Nextbob2!");
+			PlayerMoveTime = 100;
+			playerGridX = (Math.round(playerPosX/gridSize));
+			playerGridY = (Math.round(playerPosY/gridSize));
+			playerPosX = (Math.round(playerPosX/gridSize)) * gridSize;
+			playerPosY = (Math.round(playerPosY/gridSize)) * gridSize;
+			PlayerMoving = false;
+			PlayerIMG.gotoAndStop(PlayerDirection);
+			if(CurrentOverworldLevel[3][playerGridX][playerGridY][6] != ""){
+				LoadNewLevel(CurrentOverworldLevel[3][playerGridX][playerGridY][6], CurrentOverworldLevel[3][playerGridX][playerGridY][7], CurrentOverworldLevel[3][playerGridX][playerGridY][8]);
+			}
+		}
+
+		MoveLevelGrid();
+
+	}
+	
+}
+
+function LoadNewLevel(LevelName:String, GridPosX:int, GridPosY:int):void {
+	
+	for(i = 0; i<CurrentOverworldLevel[1]; i++){
+	
+		for(j = 0; j<CurrentOverworldLevel[2]; j++){
+			RemoveMovieClip(CurrentOverworldLevel[3][i][j][2]);
+		}
+	}
+	LoadedFile = CurrentOverworldLevel[3][playerGridX][playerGridY][6];
+	myTextLoader.load(new URLRequest(LoadedFile + ".txt"));
+	playerGridX = GridPosX;
+	playerGridY = GridPosY;
+	playerPosX = GridPosX * gridSize;
+	playerPosY = GridPosY * gridSize;
+}
+
+
+function handleMovement():void{
+	/*
+Direction:
+1 - Down
+2 - Up
+3 - Left
+4 - Right
+*/
+/*
+Key Pressed: w (character code: 87)
+Key Pressed: a (character code: 65)
+Key Pressed: s (character code: 83)
+Key Pressed: d (character code: 68)
+*/
+
+			//CurrentOverworldLevel[1] //Width
+			//CurrentOverworldLevel[2] //Height
+		/*
+		trace((CurrentOverworldLevel[3][playerGridX][playerGridY+1][0] != 1));
+		trace((playerGridY<CurrentOverworldLevel[2]-1));
+		trace("HOHOH")
+		trace(playerGridY);
+		trace(CurrentOverworldLevel[2]-1);
+		trace(CurrentOverworldLevel[3][playerGridX][playerGridY+1][0]);
+		trace("BOOP")
+		
+		trace(CurrentOverworldLevel[2]-1);
+		trace(PlayerMoving);
+		*/
+		PlayerMoving = false;
+		if(isKeyDown(83) && (playerGridY<CurrentOverworldLevel[2]-1)){
+			if(CurrentOverworldLevel[3][playerGridX][playerGridY+1][0] != 0){
+				//Key Pressed: s (character code: 83)
+				//1 - Down
+				PlayerMoving = true;
+				PlayerDirection = 1;
+				PlayerIMG.gotoAndStop(5);
+			}
+		}
+		if(!PlayerMoving){
+			if(isKeyDown(87) && (playerGridY>0)){
+				if(CurrentOverworldLevel[3][playerGridX][playerGridY-1][0] != 0){
+					//Key Pressed: w (character code: 87)
+					//2 - Up
+					PlayerDirection = 2;
+					PlayerMoving = true;
+					PlayerIMG.gotoAndStop(6);
+				}
+			} 
+		}
+		if(!PlayerMoving){
+			if(isKeyDown(65) && (playerGridX>0)){
+				if(CurrentOverworldLevel[3][playerGridX-1][playerGridY][0] != 0){
+					//Key Pressed: a (character code: 65)
+					//3 - Left
+					PlayerDirection = 3;
+					PlayerMoving = true;
+					PlayerIMG.gotoAndStop(7);
+				}
+			} 
+		}
+		if(!PlayerMoving){
+			if(isKeyDown(68) && (playerGridX<CurrentOverworldLevel[1]-1)){
+				if(CurrentOverworldLevel[3][playerGridX+1][playerGridY][0] != 0){
+					//Key Pressed: d (character code: 68)
+					//4 - Right
+					PlayerDirection = 4;
+					PlayerMoving = true;
+					PlayerIMG.gotoAndStop(8);
+				}
+			}
+		}
+		//trace(PlayerMoving);
+}
