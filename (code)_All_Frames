@@ -1,0 +1,35 @@
+
+var keyArray:Array = new Array();
+var iFF:Number;
+var jFF:Number;
+for (iFF=0; iFF<222; iFF++)
+{
+	keyArray.push([i,false]);
+}
+
+stage.addEventListener(KeyboardEvent.KEY_DOWN,checkKeysDown);
+stage.addEventListener(KeyboardEvent.KEY_UP,checkKeysUp);
+function checkKeysDown(event:KeyboardEvent):void
+{
+	////trace("event.keyCode = " + event.keyCode);
+	keyArray[event.keyCode][1] = true;
+	//trace("OMG");
+}
+function checkKeysUp(event:KeyboardEvent):void
+{
+	keyArray[event.keyCode][1] = false;
+}
+function isKeyDown(X)
+{
+	return keyArray[X][1];
+}
+
+function RemoveMovieClip(MCL:MovieClip):void{
+	MCL.parent.removeChild(MCL);
+}
+function bringToFront(mcl:MovieClip) {
+	mcl.parent.setChildIndex(mcl,mcl.parent.numChildren - 1);
+}
+function SendMovieClipToBack(McToMove:MovieClip):void {
+	McToMove.parent.setChildIndex(McToMove, 0);
+}
