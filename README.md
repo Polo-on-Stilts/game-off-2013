@@ -1,5 +1,4 @@
 ## Description
-
 A game by the Blind Dingoes, 'The Prisoner' is a game designed to change the idea standard RPG fighting systems
 from a menu driven experience to an engaging beat 'em up style!
 
