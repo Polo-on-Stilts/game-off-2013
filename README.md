@@ -8,7 +8,9 @@ it with an invigorating fighting game, integrated into the RPG in the exact same
 ## Play the game!
 (insert link here ;D)
 
-## The Team
+## The Blind Dingoes Team
 P3TE - Programming
 
 Chootin - Art
+
+Polo on Stilts - Story, Level Design
