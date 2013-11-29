@@ -6,7 +6,7 @@ The main plan for this significant change to the genre is to remove the mash the
 it with an invigorating fighting game, integrated into the RPG in the exact same way as the existing battle system.
 
 ## Story
-Polo-on-Stilts's bit.
+You’re trapped, left alone to rot in your cell for the rest of your days. That is, until the voice of a mysterious woman sounds through the equipment grafted to your skull. Time to escape, she says. Alarms are wailing, but guards are rarely to be seen. And what was that just then? Some kind of scratching behind that door? Best pick up a sword. It’s time to escape.
 
 ## Play the game!
 (insert link here ;D)
