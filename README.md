@@ -5,6 +5,9 @@ from a menu driven experience to more engaging styles by adding a new game with 
 The main plan for this significant change to the genre is to remove the mash the 'a' button mentality and replace
 it with an invigorating fighting game, integrated into the RPG in the exact same way as the existing battle system.
 
+## Story
+Polo-on-Stilts's bit.
+
 ## Play the game!
 (insert link here ;D)
 
