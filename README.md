@@ -13,4 +13,4 @@ P3TE - Programming
 
 Chootin - Art
 
-Polo on Stilts - Story, Level Design
+Polo-on-Stilts - Story, Level Design
